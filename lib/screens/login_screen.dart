@@ -1,16 +1,64 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Function toggleView;
+  LoginScreen(this.toggleView);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  bool isOTP = false;
+  Widget get otpEntry {
+    return Form(
+      key: _formKey2,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+                labelText: 'Enter OTP',
+              ),
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please Enter OTP';
+                }
+
+                return null;
+              },
+            ),
+            RaisedButton(
+              onPressed: () {
+                if (_formKey2.currentState.validate()) {
+                  // TODO submit
+                }
+              },
+              color: Theme.of(context).accentColor,
+              child: Text(
+                'Login',
+                style: Theme.of(context).textTheme.button,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget get phoneNumberEntry {
     return Form(
-      key: _formKey,
+      key: _formKey1,
       child: Container(
         padding: EdgeInsets.all(10),
         child: Column(
@@ -41,15 +89,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 return null;
               },
             ),
+            SizedBox(height: 10),
             RaisedButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  // TODO submit
+                if (_formKey1.currentState.validate()) {
+                  setState(() {
+                    isOTP = true;
+                  });
                 }
               },
               color: Theme.of(context).accentColor,
               child: Text(
                 'Send OTP',
+                style: Theme.of(context).textTheme.button,
+              ),
+            ),
+            FlatButton(
+              onPressed: () {
+                widget.toggleView();
+              },
+              child: Text(
+                'Don\'t have an account? Signup',
                 style: Theme.of(context).textTheme.button,
               ),
             )
@@ -78,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 elevation: 7,
-                child: phoneNumberEntry,
+                child: isOTP ? otpEntry : phoneNumberEntry,
               ),
             ),
           ],
