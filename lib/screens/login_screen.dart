@@ -39,6 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
             RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
               onPressed: () {
                 if (_formKey2.currentState.validate()) {
                   // TODO submit
@@ -91,6 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 10),
             RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
               onPressed: () {
                 if (_formKey1.currentState.validate()) {
                   setState(() {
