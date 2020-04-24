@@ -22,35 +22,31 @@ class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
           'Requests',
         ),
       ),
-      body: requestData.requests.length == 0
-          ? Center(
-              child: Text('No items!'),
-            )
-          : Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: editingController,
-                    decoration: InputDecoration(
-                      labelText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      requestData.filterRequests(value);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (ctx, i) =>
-                        RequestItemCard(requestData.requests[i]),
-                    itemCount: requestData.requests.length,
-                  ),
-                ),
-              ],
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              controller: editingController,
+              decoration: InputDecoration(
+                labelText: "Search",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                requestData.filterRequests(value);
+              },
             ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (ctx, i) =>
+                  RequestItemCard(requestData.requestGetter[i]),
+              itemCount: requestData.requestGetter.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

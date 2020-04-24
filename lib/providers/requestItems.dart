@@ -19,7 +19,7 @@ class RequestItem {
 }
 
 class Requests with ChangeNotifier {
-  List<RequestItem> _requests = [
+  static var requests = [
     RequestItem(
       id: '1',
       itemName: 'Milk',
@@ -62,15 +62,15 @@ class Requests with ChangeNotifier {
     ),
   ];
 
-  List<RequestItem> _filteredRequests;
-  List<RequestItem> get requests {
-    return [..._requests];
+  List<RequestItem> _filteredRequests = requests;
+  List<RequestItem> get requestGetter {
+    return [..._filteredRequests];
   }
 
   void filterRequests(String query) {
     print('Filtering');
     List<RequestItem> dummyList = [];
-    _requests.forEach(
+    requests.forEach(
       (item) {
         if (item.itemName.contains(query) ||
             item.itemDescription.contains(query)) {
@@ -79,6 +79,7 @@ class Requests with ChangeNotifier {
       },
     );
     print(dummyList);
+    _filteredRequests = dummyList;
     notifyListeners();
   }
 }
