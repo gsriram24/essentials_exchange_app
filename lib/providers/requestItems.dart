@@ -61,7 +61,24 @@ class Requests with ChangeNotifier {
       date: DateTime.now(),
     ),
   ];
+
+  List<RequestItem> _filteredRequests;
   List<RequestItem> get requests {
     return [..._requests];
+  }
+
+  void filterRequests(String query) {
+    print('Filtering');
+    List<RequestItem> dummyList = [];
+    _requests.forEach(
+      (item) {
+        if (item.itemName.contains(query) ||
+            item.itemDescription.contains(query)) {
+          dummyList.add(item);
+        }
+      },
+    );
+    print(dummyList);
+    notifyListeners();
   }
 }
