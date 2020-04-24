@@ -47,6 +47,14 @@ class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
