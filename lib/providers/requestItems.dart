@@ -34,7 +34,7 @@ class Requests with ChangeNotifier {
       id: '2',
       itemName: 'Rubik\'s Cube',
       itemDescription:
-          'Lorem Ipsum this is description. Add any item description or specifics here. Pls gimme cube my life is bad',
+          'Lorem Ipsum this is description. Add any item description or specifics here. Pls gimme cube my life is bad.',
       userId: 'ashwin2607',
       imgUrl:
           'https://images.pexels.com/photos/19677/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',

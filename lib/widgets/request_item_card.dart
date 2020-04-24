@@ -19,7 +19,7 @@ class _RequestItemCardState extends State<RequestItemCard> {
       children: <Widget>[
         AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          height: _expanded ? 300 : 153,
+          height: _expanded ? 280 : 153,
           child: Card(
             margin: EdgeInsets.all(10),
             child: Column(
