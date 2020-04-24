@@ -61,7 +61,7 @@ class Requests with ChangeNotifier {
       date: DateTime.now(),
     ),
   ];
-  List<RequestItem> get orders {
+  List<RequestItem> get requests {
     return [..._requests];
   }
 }
