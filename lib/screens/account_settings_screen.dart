@@ -100,6 +100,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       body: Center(
         child: Container(
           width: double.infinity,
+          height: double.infinity,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
