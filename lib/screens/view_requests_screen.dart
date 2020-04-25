@@ -1,4 +1,5 @@
 import 'package:essentials_exchange/providers/requestItems.dart';
+import 'package:essentials_exchange/widgets/app_drawer.dart';
 import 'package:essentials_exchange/widgets/request_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
           'Requests',
         ),
       ),
+      drawer: AppDrawer(),
       body: Column(
         children: <Widget>[
           Padding(
