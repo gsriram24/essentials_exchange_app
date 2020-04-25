@@ -98,49 +98,51 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         ),
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              SizedBox(height: 30),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 150.0,
-                    height: 150.0,
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                        fit: BoxFit.fill,
-                        image: new NetworkImage(
-                            "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png"),
+        child: Container(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 30),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(
+                              "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png"),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 120.0,
-                    height: 120.0,
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black54,
+                    Container(
+                      width: 120.0,
+                      height: 120.0,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    iconSize: 30,
-                    onPressed: () {},
-                    icon: Icon(Icons.edit),
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-              Container(
-                width: 300,
-                height: 500,
-                child: phoneNumberEntry,
-              ),
-            ],
+                    IconButton(
+                      iconSize: 30,
+                      onPressed: () {},
+                      icon: Icon(Icons.edit),
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 300,
+                  child: phoneNumberEntry,
+                ),
+              ],
+            ),
           ),
         ),
       ),
