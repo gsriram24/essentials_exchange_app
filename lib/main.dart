@@ -1,3 +1,4 @@
+import 'package:essentials_exchange/screens/account_settings_screen.dart';
 import 'package:essentials_exchange/wrappers/auth_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (_) => Wrapper(),
+          AccountSettingsScreen.routeName: (_) => AccountSettingsScreen(),
         },
       ),
     );

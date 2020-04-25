@@ -1,6 +1,5 @@
+import 'package:essentials_exchange/screens/account_settings_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -16,12 +15,14 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Account Settings'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AccountSettingsScreen.routeName);
+            },
           ),
           Divider(),
           ListTile(
             leading: Icon(Icons.edit),
-            title: Text('Manage Requests'),
+            title: Text('My Requests'),
             onTap: () {},
           ),
           Divider(),
