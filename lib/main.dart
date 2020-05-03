@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Essentially',
         theme: ThemeData.light(),
         routes: {
           '/': (_) => Wrapper(),
