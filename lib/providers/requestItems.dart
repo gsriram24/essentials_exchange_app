@@ -19,8 +19,6 @@ class RequestItem {
   );
 }
 
-// THis line was added
-
 class Requests with ChangeNotifier {
   static var requests = [
     RequestItem(
