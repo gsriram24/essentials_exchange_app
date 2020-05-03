@@ -22,11 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Enter OTP',
               ),
               keyboardType: TextInputType.phone,
@@ -50,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Theme.of(context).accentColor,
               child: Text(
                 'Login',
-                style: Theme.of(context).textTheme.button,
+                style: TextStyle(color: Colors.white),
               ),
             )
           ],
@@ -70,11 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Phone Number',
               ),
               keyboardType: TextInputType.phone,
@@ -107,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Theme.of(context).accentColor,
               child: Text(
                 'Send OTP',
-                style: Theme.of(context).textTheme.button,
+                style: TextStyle(color: Colors.white),
               ),
             ),
             FlatButton(

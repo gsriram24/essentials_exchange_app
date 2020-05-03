@@ -23,11 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
             TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Enter OTP',
               ),
               keyboardType: TextInputType.phone,
@@ -51,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
               color: Theme.of(context).accentColor,
               child: Text(
                 'Singup',
-                style: Theme.of(context).textTheme.button,
+                style: TextStyle(color: Colors.white),
               ),
             )
           ],
@@ -75,11 +71,7 @@ class _SignupScreenState extends State<SignupScreen> {
               focusNode: _nameFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Full Name',
               ),
               textInputAction: TextInputAction.next,
@@ -96,11 +88,7 @@ class _SignupScreenState extends State<SignupScreen> {
               focusNode: _bioFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Bio',
               ),
               maxLines: 3,
@@ -118,11 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
               focusNode: _phoneFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                enabledBorder: OutlineInputBorder(),
                 labelText: 'Phone Number',
               ),
               textInputAction: TextInputAction.done,
@@ -156,7 +140,7 @@ class _SignupScreenState extends State<SignupScreen> {
               color: Theme.of(context).accentColor,
               child: Text(
                 'Send OTP',
-                style: Theme.of(context).textTheme.button,
+                style: TextStyle(color: Colors.white),
               ),
             ),
             FlatButton(
