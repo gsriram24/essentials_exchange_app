@@ -24,17 +24,21 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   image_picker: ^0.6.5
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   firebase_auth: ^0.16.0
   firebase_storage: ^3.1.5
   provider: ^4.0.5
   intl: ^0.16.1
   http: ^0.12.1
   uuid: ^2.0.4
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.7.5
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/Put_it_in_rice.png"
+  image_path_android: "assets/Put_it_in_rice.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -46,8 +50,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - assets/Put_it_in_rice.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

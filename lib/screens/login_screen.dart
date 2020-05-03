@@ -47,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
             TextFormField(
               onChanged: (value) {
                 password = value;
@@ -106,13 +105,14 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              'Login',
-              style: Theme.of(context).textTheme.display1,
+            Image.asset(
+              'assets/Put_it_in_rice.png',
+              width: 150,
+              height: 150,
             ),
             Container(
               width: 300,
-              height: 400,
+              height: 350,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
