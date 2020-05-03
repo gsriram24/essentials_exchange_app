@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class RequestItem {
+  final String id;
   final String itemName;
   final String itemDescription;
   final String userId;
@@ -15,43 +16,15 @@ class RequestItem {
     this.itemDescription,
     this.userId,
     this.imgURL,
-    this.date,
-  );
+    this.date, [
+    this.id,
+  ]);
 }
 
 class Requests with ChangeNotifier {
-  static var requests = [
-    RequestItem(
-      'Milk',
-      'Lorem Ipsum this is description. Add any item description or specifics here.',
-      'sgcuber24',
-      'https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      DateTime.now(),
-    ),
-    RequestItem(
-      'Rubik\'s Cube',
-      'Lorem Ipsum this is description. Add any item description or specifics here. Pls gimme cube my life is bad.',
-      'ashwin2607',
-      'https://images.pexels.com/photos/19677/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      DateTime.now(),
-    ),
-    RequestItem(
-      'Phone Charger',
-      'Lorem Ipsum this is description. Add any item description or specifics here. My phone battery is low I need to charge pls',
-      'dollarakshay',
-      'https://images.pexels.com/photos/1028674/pexels-photo-1028674.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      DateTime.now(),
-    ),
-    RequestItem(
-      'Soap and Shampoo',
-      'Lorem Ipsum this is description. Add any item description or specifics here. I need to take bath pls give me.',
-      'yaegerknight',
-      'https://images.pexels.com/photos/545014/pexels-photo-545014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      DateTime.now(),
-    ),
-  ];
+  var requests;
 
-  List<RequestItem> _filteredRequests = requests;
+  List<RequestItem> _filteredRequests;
   List<RequestItem> get requestGetter {
     return [..._filteredRequests];
   }
@@ -72,6 +45,31 @@ class Requests with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchAndSetRequests() async {
+    final url = 'https://essentials-exchange.firebaseio.com/items.json';
+    final response = await http.get(url);
+    final List<RequestItem> loadedRequests = [];
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractedData == null) {
+      return;
+    }
+    extractedData.forEach((requestId, item) {
+      loadedRequests.add(
+        RequestItem(
+          item['title'],
+          item['description'],
+          item['user_id'],
+          item['imageURL'],
+          DateTime.parse(item['duedate']),
+          requestId,
+        ),
+      );
+    });
+    requests = loadedRequests.reversed.toList();
+    _filteredRequests = loadedRequests.reversed.toList();
+    notifyListeners();
+  }
+
   Future<void> addItemToDatabase(RequestItem item) async {
     var imageURL = null;
 
@@ -82,11 +80,23 @@ class Requests with ChangeNotifier {
         'added_timestamp': DateTime.now().toIso8601String(),
         'duedate': item.date.toIso8601String(),
         'description': item.itemDescription,
-        'imageURL': item.imgURL
+        'imageURL': item.imgURL,
+        'user_id': 'System',
       }),
     );
 
-    requests.insert(0, item);
+    requests.insert(
+      0,
+      RequestItem(
+        item.itemName,
+        item.itemDescription,
+        item.userId,
+        item.imgURL,
+        item.date,
+        json.decode(response.body)['name'],
+      ),
+    );
+    _filteredRequests = requests;
     notifyListeners();
   }
 }

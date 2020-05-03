@@ -28,9 +28,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
+                  borderSide: BorderSide(),
                 ),
                 labelText: 'Full Name',
               ),
@@ -52,9 +50,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
+                  borderSide: BorderSide(),
                 ),
                 labelText: 'Bio',
               ),
@@ -77,10 +73,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               onPressed: () {
                 if (_formKey1.currentState.validate()) {}
               },
-              color: Theme.of(context).accentColor,
               child: Text(
                 'Save',
-                style: Theme.of(context).textTheme.button,
               ),
             ),
           ],

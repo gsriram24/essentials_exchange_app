@@ -16,6 +16,24 @@ class ViewRequestsScreen extends StatefulWidget {
 
 class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
   TextEditingController editingController = TextEditingController();
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Requests>(context).fetchAndSetRequests().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,31 +45,35 @@ class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
         ),
       ),
       drawer: AppDrawer(),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              controller: editingController,
-              decoration: InputDecoration(
-                labelText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                requestData.filterRequests(value);
-              },
+      body: _isLoading || requestData.requests == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: editingController,
+                    decoration: InputDecoration(
+                      labelText: "Search",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      requestData.filterRequests(value);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (ctx, i) =>
+                        RequestItemCard(requestData.requestGetter[i]),
+                    itemCount: requestData.requestGetter.length,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (ctx, i) =>
-                  RequestItemCard(requestData.requestGetter[i]),
-              itemCount: requestData.requestGetter.length,
-            ),
-          ),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
         onPressed: () {
