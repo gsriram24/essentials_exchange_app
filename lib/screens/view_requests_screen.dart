@@ -1,8 +1,11 @@
-import 'package:essentials_exchange/providers/requestItems.dart';
-import 'package:essentials_exchange/widgets/app_drawer.dart';
-import 'package:essentials_exchange/widgets/request_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:essentials_exchange/providers/requestItems.dart';
+import 'package:essentials_exchange/screens/add_request_screen.dart';
+
+import 'package:essentials_exchange/widgets/app_drawer.dart';
+import 'package:essentials_exchange/widgets/request_item_card.dart';
 
 class ViewRequestsScreen extends StatefulWidget {
   static const routeName = '/view-requests';
@@ -51,7 +54,9 @@ class _ViewRequestsScreenState extends State<ViewRequestsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AddRequestScreen.routeName);
+        },
         child: Icon(
           Icons.add,
           color: Colors.white,

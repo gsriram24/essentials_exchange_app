@@ -1,8 +1,11 @@
-import 'package:essentials_exchange/screens/account_settings_screen.dart';
-import 'package:essentials_exchange/wrappers/auth_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+
+import 'package:essentials_exchange/screens/account_settings_screen.dart';
+import 'package:essentials_exchange/screens/add_request_screen.dart';
+import 'package:essentials_exchange/wrappers/auth_homepage.dart';
+
 import './providers/requestItems.dart';
 
 void main() => runApp(MyApp());
@@ -19,17 +22,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData.dark().copyWith(
-          accentColor: Colors.blueAccent[100],
-          textTheme: TextTheme().copyWith(
-            display1: TextStyle(
-              fontSize: 50.0,
-            ),
-          ),
-        ),
+        theme: ThemeData.light(),
         routes: {
           '/': (_) => Wrapper(),
           AccountSettingsScreen.routeName: (_) => AccountSettingsScreen(),
+          AddRequestScreen.routeName: (_) => AddRequestScreen()
         },
       ),
     );
