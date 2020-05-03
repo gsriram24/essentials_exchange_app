@@ -14,7 +14,7 @@ class RequestItem {
     @required this.itemName,
     this.itemDescription,
     this.userId,
-    this.imgURL,
+    @required this.imgURL,
     this.date,
   );
 }
