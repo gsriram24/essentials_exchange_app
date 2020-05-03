@@ -1,6 +1,9 @@
+import 'package:essentials_exchange/providers/user.dart';
+import 'package:essentials_exchange/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import '../providers/requestItems.dart' as req;
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RequestItemCard extends StatefulWidget {
   final req.RequestItem request;
@@ -12,7 +15,25 @@ class RequestItemCard extends StatefulWidget {
 }
 
 class _RequestItemCardState extends State<RequestItemCard> {
+  var fullName = '';
   var _expanded = false;
+  var userData;
+  var uid;
+  @override
+  void didChangeDependencies() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseUser user = await auth.currentUser();
+    setState(() {
+      uid = user.uid;
+    });
+    UserData.fetchUserData(uid).then((value) {
+      setState(() {
+        userData = value;
+      });
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,7 +66,7 @@ class _RequestItemCardState extends State<RequestItemCard> {
                             children: <Widget>[
                               ListTile(
                                 title: Text(widget.request.itemName),
-                                subtitle: Text(widget.request.userId),
+                                subtitle: Text(widget.request.fullName),
                               ),
                               if (!_expanded)
                                 Expanded(
@@ -95,11 +116,17 @@ class _RequestItemCardState extends State<RequestItemCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              FlatButton(
-                                textColor: Theme.of(context).accentColor,
-                                onPressed: () {},
-                                child: Text('Chat'),
-                              ),
+                              if (uid != widget.request.userId)
+                                FlatButton(
+                                  textColor: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                      ChatScreen.routeName,
+                                      arguments: userData.name,
+                                    );
+                                  },
+                                  child: Text('Chat'),
+                                ),
                               FlatButton(
                                 textColor: Theme.of(context).accentColor,
                                 onPressed: () {

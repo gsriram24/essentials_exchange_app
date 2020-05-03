@@ -1,3 +1,4 @@
+import 'package:essentials_exchange/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,6 +7,7 @@ import 'package:essentials_exchange/screens/add_request_screen.dart';
 
 import 'package:essentials_exchange/widgets/app_drawer.dart';
 import 'package:essentials_exchange/widgets/request_item_card.dart';
+import 'dart:convert';
 
 class ViewRequestsScreen extends StatefulWidget {
   static const routeName = '/view-requests';

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:essentials_exchange/providers/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RequestItem {
   final String id;
@@ -10,6 +12,7 @@ class RequestItem {
   final String userId;
   final String imgURL;
   final DateTime date;
+  final String fullName;
 
   RequestItem(
     @required this.itemName,
@@ -17,6 +20,7 @@ class RequestItem {
     this.userId,
     this.imgURL,
     this.date, [
+    this.fullName,
     this.id,
   ]);
 }
@@ -61,6 +65,7 @@ class Requests with ChangeNotifier {
           item['user_id'],
           item['imageURL'],
           DateTime.parse(item['duedate']),
+          item['fullName'],
           requestId,
         ),
       );
@@ -71,6 +76,8 @@ class Requests with ChangeNotifier {
   }
 
   Future<void> addItemToDatabase(RequestItem item) async {
+    final userData = await UserData.fetchUserData(item.userId);
+
     var imageURL = null;
 
     final response = await http.post(
@@ -81,7 +88,8 @@ class Requests with ChangeNotifier {
         'duedate': item.date.toIso8601String(),
         'description': item.itemDescription,
         'imageURL': item.imgURL,
-        'user_id': 'System',
+        'fullName': userData.name,
+        'user_id': item.userId,
       }),
     );
 
@@ -93,6 +101,7 @@ class Requests with ChangeNotifier {
         item.userId,
         item.imgURL,
         item.date,
+        userData.name,
         json.decode(response.body)['name'],
       ),
     );

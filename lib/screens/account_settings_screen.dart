@@ -1,4 +1,8 @@
+import 'package:essentials_exchange/providers/auth.dart';
+import 'package:essentials_exchange/providers/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   static const routeName = '/account-settings';
@@ -9,13 +13,34 @@ class AccountSettingsScreen extends StatefulWidget {
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final _formKey1 = GlobalKey<FormState>();
-
-  @override
   final FocusNode _nameFocus = FocusNode();
 
   final FocusNode _bioFocus = FocusNode();
 
-  Widget get phoneNumberEntry {
+  var _isInit = true;
+  var _isLoading = false;
+  var userData;
+  @override
+  void didChangeDependencies() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseUser user = await auth.currentUser();
+    final uid = user.uid;
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      UserData.fetchUserData(uid).then((value) {
+        setState(() {
+          _isLoading = false;
+          userData = value;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  Widget get userEntry {
     return Form(
       key: _formKey1,
       child: Container(
@@ -24,12 +49,10 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              initialValue: userData.name,
               focusNode: _nameFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(),
-                ),
                 labelText: 'Full Name',
               ),
               textInputAction: TextInputAction.next,
@@ -46,12 +69,10 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               height: 30,
             ),
             TextFormField(
+              initialValue: userData.bio,
               focusNode: _bioFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(),
-                ),
                 labelText: 'Bio',
               ),
               maxLines: 3,
@@ -91,56 +112,63 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           'Account Settings',
         ),
       ),
-      body: Center(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 30),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 150.0,
-                      height: 150.0,
-                      decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: new NetworkImage(
-                              "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png"),
-                        ),
+      body: _isLoading || userData == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Center(
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 30),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 150.0,
+                            height: 150.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.fill,
+                                image: new NetworkImage(
+                                  userData.imgUrl != null
+                                      ? userData.imgUrl
+                                      : "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png",
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 120.0,
+                            height: 120.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          IconButton(
+                            iconSize: 30,
+                            onPressed: () {},
+                            icon: Icon(Icons.edit),
+                            color: Colors.white,
+                          ),
+                        ],
                       ),
-                    ),
-                    Container(
-                      width: 120.0,
-                      height: 120.0,
-                      decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black54,
+                      SizedBox(height: 30),
+                      Container(
+                        width: 300,
+                        child: userEntry,
                       ),
-                    ),
-                    IconButton(
-                      iconSize: 30,
-                      onPressed: () {},
-                      icon: Icon(Icons.edit),
-                      color: Colors.white,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                SizedBox(height: 30),
-                Container(
-                  width: 300,
-                  child: phoneNumberEntry,
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

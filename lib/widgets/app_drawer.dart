@@ -1,7 +1,9 @@
+import 'package:essentials_exchange/providers/auth.dart';
 import 'package:essentials_exchange/screens/account_settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -21,15 +23,11 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('My Requests'),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () {},
+            onTap: () async {
+              await _auth.signOut();
+            },
           ),
         ],
       ),

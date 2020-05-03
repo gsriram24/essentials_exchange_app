@@ -1,3 +1,4 @@
+import 'package:essentials_exchange/providers/auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -8,58 +9,19 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final AuthService _auth = AuthService();
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
-  bool isOTP = false;
-
-  Widget get otpEntry {
-    return Form(
-      key: _formKey2,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(),
-                labelText: 'Enter OTP',
-              ),
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please Enter OTP';
-                }
-
-                return null;
-              },
-            ),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              onPressed: () {
-                if (_formKey2.currentState.validate()) {
-                  // TODO submit
-                }
-              },
-              color: Theme.of(context).accentColor,
-              child: Text(
-                'Singup',
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _bioFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
-  Widget get phoneNumberEntry {
+
+  String fullName;
+  String bio;
+  String email;
+  String password;
+  Widget get emailEntry {
     return Form(
       key: _formKey1,
       child: Container(
@@ -71,9 +33,11 @@ class _SignupScreenState extends State<SignupScreen> {
               focusNode: _nameFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(),
                 labelText: 'Full Name',
               ),
+              onChanged: (value) {
+                fullName = value;
+              },
               textInputAction: TextInputAction.next,
               onEditingComplete: () =>
                   FocusScope.of(context).requestFocus(_bioFocus),
@@ -88,9 +52,11 @@ class _SignupScreenState extends State<SignupScreen> {
               focusNode: _bioFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(),
                 labelText: 'Bio',
               ),
+              onChanged: (value) {
+                bio = value;
+              },
               maxLines: 3,
               onEditingComplete: () =>
                   FocusScope.of(context).requestFocus(_phoneFocus),
@@ -103,24 +69,40 @@ class _SignupScreenState extends State<SignupScreen> {
               },
             ),
             TextFormField(
-              focusNode: _phoneFocus,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(),
-                labelText: 'Phone Number',
+                labelText: 'Email',
               ),
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.phone,
+              onChanged: (value) {
+                email = value;
+              },
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 Pattern pattern =
-                    r'^(?:(?:\+?[0-9]+\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$';
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                 RegExp regex = new RegExp(pattern);
 
                 if (value.isEmpty) {
-                  return 'Please Enter your Phone Number';
+                  return 'Please Enter your Email';
                 }
                 if (!regex.hasMatch(value)) {
-                  return 'Enter a valid phone number with country code.';
+                  return 'Enter a valid Email.';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+              onChanged: (value) {
+                password = value;
+              },
+              obscureText: true,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter your password';
                 }
                 return null;
               },
@@ -130,16 +112,18 @@ class _SignupScreenState extends State<SignupScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey1.currentState.validate()) {
-                  setState(() {
-                    isOTP = true;
-                  });
+                  dynamic result = await _auth.registerWithEmailAndPassword(
+                      email, password, fullName, bio, null);
+                  if (result == null) {
+                    print('error');
+                  }
                 }
               },
               color: Theme.of(context).accentColor,
               child: Text(
-                'Send OTP',
+                'Signup',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -175,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
               Container(
                 width: 300,
                 height: 500,
-                child: isOTP ? otpEntry : phoneNumberEntry,
+                child: emailEntry,
               ),
             ],
           ),

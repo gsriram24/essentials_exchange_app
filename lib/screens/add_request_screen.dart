@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddRequestScreen extends StatefulWidget {
   static const routeName = '/add-request';
@@ -27,6 +28,24 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
   String _description = '';
   File _image;
   String _uploadedURL;
+
+  var _isInit = true;
+  var _isLoading = false;
+  var uid;
+  @override
+  void didChangeDependencies() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseUser user = await auth.currentUser();
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+        uid = user.uid;
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   void _presetDatePicker() {
     showDatePicker(
       context: context,
@@ -184,7 +203,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                           RequestItem item = RequestItem(
                             _title,
                             _description,
-                            "SYSTEM",
+                            uid,
                             _uploadedURL,
                             _selectedDate,
                           );
