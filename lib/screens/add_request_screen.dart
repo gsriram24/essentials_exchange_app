@@ -1,6 +1,5 @@
 import 'package:essentials_exchange/providers/requestItems.dart';
 import 'package:flutter/material.dart';
-import 'package:essentials_exchange/widgets/image_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
