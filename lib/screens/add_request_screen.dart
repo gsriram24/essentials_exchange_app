@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore
+import 'package:intl/intl.dart';
 
 class AddRequestScreen extends StatefulWidget {
   static const routeName = '/add-request';
@@ -14,6 +15,8 @@ class AddRequestScreen extends StatefulWidget {
 }
 
 class _AddRequestScreenState extends State<AddRequestScreen> {
+  DateTime _selectedDate;
+
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _titleFocus = FocusNode();
@@ -24,6 +27,21 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
   String _description = '';
   File _image;
   String _uploadedURL;
+  void _presetDatePicker() {
+    showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+  }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -121,14 +139,34 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       ),
                       Container(
                         margin: EdgeInsets.all(16),
-                        height: 240,
+                        height: 150,
                         child: Center(
                           child: _image == null
                               ? Text('No image selected.')
-                              : Image.file(_image),
+                              : Image.file(
+                                  _image,
+                                  height: 150,
+                                ),
                         ),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            _selectedDate == null
+                                ? 'No Date Chosen!'
+                                : 'Date: ${DateFormat.yMd().format(_selectedDate)}',
+                          ),
+                        ),
+                        RaisedButton(
+                            child: Text('Choose Date'),
+                            onPressed: _presetDatePicker)
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -143,10 +181,16 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         if (_formKey.currentState.validate()) {
                           await uploadFile();
                           // Process data.
-                          RequestItem item = RequestItem(_title, _description,
-                              "SYSTEM", _uploadedURL, DateTime.now());
+                          RequestItem item = RequestItem(
+                            _title,
+                            _description,
+                            "SYSTEM",
+                            _uploadedURL,
+                            _selectedDate,
+                          );
                           await requestData.addItemToDatabase(item);
                           print("Upload Success");
+                          Navigator.of(context).pop();
                         }
                       },
                       child: Text('Submit'),

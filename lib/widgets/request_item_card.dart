@@ -82,13 +82,14 @@ class _RequestItemCardState extends State<RequestItemCard> {
                         Text(
                           widget.request.itemDescription,
                         ),
-                        Text(
-                          'Need by: ' +
-                              DateFormat.yMMMMEEEEd()
-                                  .format(widget.request.date)
-                                  .toString(),
-                          style: Theme.of(context).textTheme.subtitle,
-                        ),
+                        if (widget.request.date != null)
+                          Text(
+                            'Need by: ' +
+                                DateFormat.yMMMMEEEEd()
+                                    .format(widget.request.date)
+                                    .toString(),
+                            style: Theme.of(context).textTheme.subtitle,
+                          ),
                         Container(
                           alignment: Alignment.bottomRight,
                           child: Row(
