@@ -25,7 +25,7 @@ class Requests with ChangeNotifier {
   static var requests = [
     RequestItem(
       'Milk',
-      'Lorem Ipsum this is description. Add any item description or specifics here.',
+      'Lorem Ipsum this. Add any item description or specifics here.',
       'sgcuber24',
       'https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
       DateTime.now(),
